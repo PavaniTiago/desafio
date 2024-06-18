@@ -13,7 +13,7 @@ interface InputIconProps {
 export function InputIcon({ icon, type, placeholder, value, onChange }: InputIconProps) {
     return (
         <div className="flex items-center border border-muted-foreground rounded-full px-2 w-[335px]">
-            {icon && <Image alt='icon image' src={icon} width={0} height={0} className="w-5 h-5 text-gray-500" />}
+            {typeof icon === 'string' ? <Image alt='icon image' src={icon} width={0} height={0} className="w-5 h-5 text-gray-500" /> : <div className='text-secondary-foreground'>{icon}</div>}
             <Input
                 type={type}
                 placeholder={placeholder}

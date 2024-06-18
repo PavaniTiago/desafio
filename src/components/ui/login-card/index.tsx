@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { Checkbox } from "../checkbox"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../form"
+import { Lock, User } from "lucide-react"
+import { InputIcon } from "../icon-input"
 
 
 export function LoginCard(){
@@ -54,7 +56,10 @@ export function LoginCard(){
                                     <FormItem className="relative">
                                         <FormLabel className="text-secondary">E-mail</FormLabel>
                                         <FormControl>
-                                            <Input className="rounded-xl text-secondary-foreground border-secondary-foreground" type="email" placeholder="Preencha com e-mail" {...field} />
+                                            <InputIcon
+                                                placeholder="Preencha com e-mail"
+                                                icon={<User className="w-5 h-5"/>}
+                                                />
                                         </FormControl>
                                         <FormMessage className="absolute -bottom-5 text-red-600"/>
                                     </FormItem>
@@ -67,7 +72,10 @@ export function LoginCard(){
                                     <FormItem className="mt-4 relative">
                                         <FormLabel className="text-secondary">Senha</FormLabel>
                                         <FormControl>
-                                            <Input type="password" className="rounded-xl text-secondary-foreground border-secondary-foreground" placeholder="Preencha com senha" {...field} />
+                                        <InputIcon
+                                                placeholder="Preencha com senha"
+                                                icon={<Lock className="w-5 h-5"/>}
+                                        />
                                         </FormControl>
                                         <FormMessage className="absolute -bottom-5 text-red-600"/>
                                     </FormItem>

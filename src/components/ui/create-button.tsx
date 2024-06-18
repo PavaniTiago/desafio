@@ -11,17 +11,17 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowLeft, Pencil } from "lucide-react"
+import { ArrowLeft, Pencil, PlusCircle } from "lucide-react"
 
-export function EditButton() {
+export function CreateButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="link" className="border-0 p-0 w-5 h-5 shadow-none"><Pencil className="w-4 h-4 text-secondary"/></Button>
+      <Button className="rounded-full gap-2 text-sm py-5 hover:bg-pink-800 transition-all"><PlusCircle className="w-5 h-5 text-white"/> Nota categoria</Button>
       </DialogTrigger>
       <DialogContent className="max-w-6xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center ml-4">Editar Colaborador</DialogTitle>
+          <DialogTitle className="flex items-center ml-4">Novo Colaborador</DialogTitle>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4 py-4">
           <div className="flex flex-col items-start gap-4">
@@ -61,6 +61,28 @@ export function EditButton() {
             <Input
             placeholder="Digite aqui"
               id="email"
+              className="col-span-3 rounded-xl border-muted-foreground"
+            />
+          </div>
+          <div className="flex flex-col items-start gap-4">
+            <Label htmlFor="password" className="text-right text-secondary">
+              Senha
+            </Label>
+            <Input
+            placeholder="Digite aqui"
+              id="password"
+              type="password"
+              className="col-span-3 rounded-xl border-muted-foreground"
+            />
+          </div>
+          <div className="flex flex-col items-start gap-4">
+            <Label htmlFor="password" className="text-right text-secondary">
+              Confirme a Senha
+            </Label>
+            <Input
+            placeholder="Digite aqui"
+              id="password"
+              type="password"
               className="col-span-3 rounded-xl border-muted-foreground"
             />
           </div>

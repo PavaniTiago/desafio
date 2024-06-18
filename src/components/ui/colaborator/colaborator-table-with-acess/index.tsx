@@ -13,17 +13,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal, RefreshCcw, Settings2, ShieldBan } from "lucide-react"
+import { ArrowUpDown, RefreshCcw, Settings2, ShieldBan } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -156,7 +153,7 @@ export function DataTableWithAcess() {
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto rounded-xl border-muted-foreground text-secondary-foreground font-normal text-sm">
+            <Button variant="outline" className="ml-auto rounded-xl hover:bg-neutral-200 border-muted-foreground text-secondary-foreground font-normal text-sm">
               <Settings2 className="text-secondary mr-2 h-4 w-4" /> Colunas
             </Button>
           </DropdownMenuTrigger>
@@ -168,7 +165,7 @@ export function DataTableWithAcess() {
                 return (
                   <DropdownMenuCheckboxItem
                     key={column.id}
-                    className="capitalize"
+                    className="capitalize hover:bg-neutral-200"
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
@@ -233,6 +230,25 @@ export function DataTableWithAcess() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted">
+          <div>
+          <label htmlFor="pageSize">Mostrando{" "}</label>
+          <select
+            id="pageSize"
+            value={table.getState().pagination.pageSize}
+            onChange={e => table.setPageSize(Number(e.target.value))}
+            className="border rounded-xl p-0.5 text-black border-muted"
+          >
+            {[10, 15, 20, 25, 30, 40, 50].map(pageSize => (
+              <option key={pageSize} value={pageSize} className="bg-white">
+                {pageSize}
+              </option>
+            ))}
+          </select>
+          {" "}
+          de <span className="text-black">{table.getFilteredRowModel().rows.length}</span> resultados
+        </div>
+        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

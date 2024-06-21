@@ -1,26 +1,27 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+// Chave secreta para assinar o token. Mantenha-a segura e fora do código fonte.
 
-export function generateToken(payload: any): string {
+const JWT_SECRET = process.env.JWT_SECRET || 'default_secret';
+
+export function generateToken(payload: object): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' });
-}
-
-export async function hashPassword(password: string): Promise<string> {
-  const saltRounds = 10;
-  return bcrypt.hash(password, saltRounds);
-}
-
-export async function comparePasswords(password: string, hashedPassword: string): Promise<boolean> {
-  return bcrypt.compare(password, hashedPassword);
 }
 
 export function verifyToken(token: string): any {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    return decoded;
+    return jwt.verify(token, JWT_SECRET);
   } catch (error) {
-    throw new Error('Token inválido');
+    return null;
   }
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
+}
+
+export async function comparePasswords(inputPassword: string, storedPassword: string): Promise<boolean> {
+  return await bcrypt.compare(inputPassword, storedPassword);
 }

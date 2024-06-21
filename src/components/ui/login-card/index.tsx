@@ -24,10 +24,8 @@ export function LoginCard(){
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const formSchema = z.object({
-        email: z.string().email({ message: "Insira um e-mail válido." }).trim(),
-        password: z.string().min(8, {
-          message: "Senha deve ter no mínimo 8 caracteres.",
-        }),
+        email: z.string().email().trim(),
+        password: z.string()
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -38,32 +36,36 @@ export function LoginCard(){
         },
     })
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
-        console.log(data)
+    async function onSubmit(data: z.infer<typeof formSchema>) { 
+        const { email, password } = data     
         try {
-          const response = await axios.post('/api/', data);
-          const { token } = response.data;
-      
-          // Armazena o token JWT no localStorage para uso posterior
-          localStorage.setItem('token', token);
-      
-          // Agora faz uma requisição GET para obter as informações do usuário
-          const userResponse = await axios.get('/api/', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-      
-          const { user } = userResponse.data;
-          console.log('Informações do usuário:', user);
-      
-          // Redireciona para a página principal ou faz qualquer ação após login
-          router.push('/dashboard/colaboradores');
-        } catch (error) {
-          setError('Credenciais inválidas');
-          console.error('Erro ao fazer login:', error);
-        }
-      }
+            console.log('Dados enviados para login:', { email, password });
+        
+            // Envia os dados de login para o endpoint de login
+            const response = await axios.post('/api/login', { email, password });
+            const { token } = response.data;
+        
+            // Armazena o token JWT no localStorage para uso posterior
+            localStorage.setItem('token', token);
+        
+            // Faz uma requisição GET para obter as informações do usuário
+            const userResponse = await axios.get('/api/user', {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+        
+            const { user } = userResponse.data;
+            console.log('Informações do usuário:', user);
+        
+            // Redireciona para a página principal ou faz qualquer ação após login
+            router.push('/dashboard/colaboradores');
+          } catch (error) {
+            console.error('Erro ao fazer login:', error);
+            // Aqui você pode tratar o erro de forma mais específica se necessário
+            setError('Credenciais inválidas')
+          }
+    }
 
     return (
         <article className="flex items-center h-full absolute">
@@ -107,7 +109,7 @@ export function LoginCard(){
                                                 icon={<Lock className="w-5 h-5"/>}
                                         />
                                         </FormControl>
-                                        <FormMessage className="absolute -bottom-5 text-red-600"/>
+                                        <FormMessage className="absolute -bottom-5 text-red-600">{error}</FormMessage>
                                     </FormItem>
                                 )}
                             />
